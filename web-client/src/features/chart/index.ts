@@ -1,0 +1,1 @@
+export { chartScheme } from './model';
