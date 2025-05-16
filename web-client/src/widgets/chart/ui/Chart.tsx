@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import type { FC } from 'react';
 import {
     Chart as ChartJS,
     Title,
@@ -10,29 +10,11 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { chartScheme } from '../../../features/chart';
-import { getData } from '../../../entities/data';
-import type { Data } from '../../../entities/data';
+import type { IChartProps } from '../type/props';
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
  
-export const Chart: React.FC = () => {
-    const [ data, setData ] = useState<Data[]>([]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await getData();
-                setData(response);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-
-        fetchData();
-        const intervalId = setInterval(fetchData, 1500);
-        return () => clearInterval(intervalId);
-    }, []);
-
+export const Chart: FC<IChartProps> = ({data}) => {
     const labels = data.map((item) => item.name);
     const values = data.map((item) => item.value);
     const colors = '#38BB3D';
@@ -51,7 +33,7 @@ export const Chart: React.FC = () => {
     };
 
     return (
-        <section className="p-4 rounded-[24px] bg-[#F4F5F8]">
+        <section className="m-4 p-4 rounded-[24px] bg-[#F4F5F8]">
             <div className="w-full h-[300px]">
                 <Bar data={chartData} options={chartScheme} />
             </div>

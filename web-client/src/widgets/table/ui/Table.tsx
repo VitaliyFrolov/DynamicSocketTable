@@ -1,28 +1,9 @@
-import { useEffect, useState, type FC } from 'react';
-import { getData } from '../../../entities/data';
-import type { Data } from '../../../entities/data';
-import { sortData } from '../../../features/sort';
+import { type FC } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import type { ITableProps } from '../type/props';
+import type { Data } from '../../../entities/data';
 
-export const Table: FC = () => {
-    const [ data, setData ] = useState<Data[]>([]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await getData();
-                const sortedData = sortData(response);
-                setData(sortedData);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-
-        fetchData();
-        const intervalId = setInterval(fetchData, 1500);
-        return () => clearInterval(intervalId);
-    }, []);
-
+export const Table: FC<ITableProps> = ({data}) => {
     return (
         <div className="p-4">
             <div className="overflow-x-auto rounded-lg shadow">
@@ -39,7 +20,7 @@ export const Table: FC = () => {
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                         <AnimatePresence>
-                            {data.map((item, index) => (
+                            {data.map((item: Data, index: number) => (
                                 <motion.tr
                                     key={item.id}
                                     layout
