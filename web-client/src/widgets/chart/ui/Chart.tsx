@@ -33,7 +33,7 @@ export const Chart: FC<IChartProps> = ({data}) => {
     };
 
     return (
-        <section className="p-4 rounded-[24px] bg-[#F4F5F8]">
+        <section className="m-4 p-4 rounded-[24px] bg-[#F4F5F8]">
             <div className="w-full h-[300px]">
                 <Bar data={chartData} options={chartScheme} />
             </div>
