@@ -1,9 +1,11 @@
-FROM node:23-alpine
+FROM node:20-alpine 
+
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
 WORKDIR /app
 COPY . .
 
-RUN npm install
-EXPOSE 5173
+RUN pnpm install
 
-CMD ["npm", "run", "dev", "--", "--host"]
+EXPOSE 5173
+CMD ["pnpm", "run", "dev", "--", "--host"]
